@@ -1,6 +1,6 @@
 import os,sys
 from flask import Flask,request
-
+from utils import wit_response
 
 from pymessenger import Bot
 
@@ -44,7 +44,9 @@ def webhook():
 						messaging_text = 'no text:'
 
 					response = messaging_text
-					#print(response)
+					entity,value = wit_response(messaging_text)
+					print(entity)
+					print(response)
 					bot.send_text_message(sender_id,response)
 
 	return "ok",200
