@@ -1,9 +1,10 @@
 import os,sys
 from flask import Flask,request
 from utils import wit_response
-
+import json
+import requests
 from pymessenger import Bot
-
+from fbmq import Page,Attachment,Template,QuickReply
 
 app = Flask(__name__)
 
@@ -11,6 +12,8 @@ app = Flask(__name__)
 PAGE_ACCESS_TOKEN = 'EAAbYwLFXiZAABAKawijZBEv0i38L0PcP2c3TiRN4nZC2Fmw1M6kbXsSeg6QVF4RqZBVO3uuwnn33HQZCglLyLujVwspDPzyN6wqiZAj69xPJdnyufbxmQmxdfKWTpCSvpCfcMs1BF0vkdDZB1ZBBDZAuOKdw4txLZCgSF2HFUNMfOy8gp5ZCN9eAep0'
 
 bot = Bot(PAGE_ACCESS_TOKEN)
+
+page = Page(PAGE_ACCESS_TOKEN)
 
 @app.route('/',methods=['GET'])
 
@@ -43,18 +46,36 @@ def webhook():
 					else:
 						messaging_text = 'no text:'
 
-					response = messaging_text
+					print(sender_id)
+
+					response = "none"
 					entity,value = wit_response(messaging_text)
-					print(entity)
-					print(response)
-					bot.send_text_message(sender_id,response)
+					#print(entity)
+					
+					if entity ==  "greetings":
+						quick_reply(sender_id)
+					else:
+						page.send(sender_id,"welcome")
+
+
+					
+					
 
 	return "ok",200
+
 
 
 def log(message):
 	print(message)
 	sys.stdout.flush()
 
+
+def quick_reply(sender_id):
+	quick_replies = [{'title': 'New-User', 'payload' : 'pick_action'},
+					  {'title': 'Old-User', 'payload' : 'pick_action'}
+	]
+	page.send(sender_id,"Welcome to Kahyap-bot?",quick_replies=quick_replies,metadata ="DEVELOPER_DEFINED_METADATA")
+
+
 if __name__ == "__main__":
-	app.run(debug = True,port =50)
+	app.run(debug = True,port =60)
