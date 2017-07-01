@@ -11,8 +11,8 @@ from numpy import random
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=True
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:kashyap@localhost/bot'
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://wbklbekokfatzv:d6b8d560d30239b8c98fce3fe6e7115b147d7072cdc617f82706527644c5a6b3@ec2-23-21-158-253.compute-1.amazonaws.com:5432/d8jcgmv3mbh3q8"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:kashyap@localhost/fb_bot'
+#app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://wbklbekokfatzv:d6b8d560d30239b8c98fce3fe6e7115b147d7072cdc617f82706527644c5a6b3@ec2-23-21-158-253.compute-1.amazonaws.com:5432/d8jcgmv3mbh3q8"
 
 db = SQLAlchemy(app)
 
@@ -73,7 +73,7 @@ class videos(db.Model):
 #############CREATE DATABASE#######
 
 db.create_all()
-
+#import python_db2
 @app.route('/',methods=['GET'])
 
 def verify():
@@ -82,7 +82,8 @@ def verify():
         	if not request.args.get("hub.verify_token") == "hello":
             		return "Verification token mismatch", 403
         	return request.args["hub.challenge"], 200
-   	return "Hello world", 200
+   # return "Hello world", 200
+   		return "Hello world", 200
 
 
 @app.route('/',methods=['POST'])
@@ -111,7 +112,7 @@ def webhook():
 
 					response = "none"
 					entity,value = wit_response(messaging_text)
-					print(entity)
+					#print(entity)
 					if entity ==  "greetings":
 						quick_reply(sender_id)
 					elif entity == "diet_entity":
@@ -141,15 +142,19 @@ def webhook():
 def send_videos(sender_id):
 	w=videos.query.all()
 	xyz=random.choice(w)
-	page.send(sender_id,Attachment.Video("xyz.url"))
-	page.send(sender_id,"xyz.desc")
+	#print(xyz.url)
+	url=str(xyz.url)
+	desc=str(xyz.desc)
+	page.send(sender_id,Attachment.Video(url))
+	page.send(sender_id,"desc")
+	quick_reply(sender_id)
 
 
 ###########SEND NON-VEG-DIET ACC. To TIME###########
 def non_veg_diet(sender_id):
 	list=[]
 	hour =dt.datetime.now().hour
-	if(hour>5 && hour <12):
+	if(hour>5 and hour <12):
 		w=non_veg.query.filter_by(id='Breakfast').all()
 		z = w[randint(0,len(w)-1)].item
 		list.append(z)
@@ -158,7 +163,7 @@ def non_veg_diet(sender_id):
 		z = w[randint(0,len(juice)-1)].item
 		list.append(z)
 
-	elif(hour>12 && hour <16):
+	elif(hour>12 and hour <16):
 		w=non_veg.query.filter_by(id='Non_Veg_Lunch_Mandatory').all()
 		for i in w:
 			list.append(i.item)
@@ -169,13 +174,13 @@ def non_veg_diet(sender_id):
 		for i in y:
 			list.append(i.item)
 
-	elif(hour>16 && hour <20):
+	elif(hour>16 and hour <18):
 		page.send(sender_id,"Snacks not available !!!")
 		quick_reply(sender_id)
 		return
 
 
-	elif(hour>20 && hour<24):
+	elif(hour>18 and hour<24):
 		w=non_veg.query.filter_by(id="Non_Veg_Dinner_Mandatory").all()
 		for i in w:
 			list.append(i.item)
@@ -189,13 +194,15 @@ def non_veg_diet(sender_id):
 	for i in list:
 		page.send(sender_id,i)
 
+	quick_reply(sender_id)
+
 
 ###########SEND VEG-DIET ACC. To TIME###########
 
 def veg_diet(sender_id):
 	list=[]
 	hour =dt.datetime.now().hour
-	if(hour>5 && hour <12):
+	if(hour>5 and hour <12):
 		w=veg.query.filter_by(id='Breakfast').all()
 		z = w[randint(0,len(w)-1)].item
 		list.append(z)
@@ -204,7 +211,7 @@ def veg_diet(sender_id):
 		z = w[randint(0,len(juice)-1)].item
 		list.append(z)
 
-	elif(hour>12 && hour <16):
+	elif(hour>12 and hour <16):
 		w=veg.query.filter_by(id='Veg_Lunch_Mandatory').all()
 		for i in w:
 			list.append(i.item)
@@ -214,13 +221,15 @@ def veg_diet(sender_id):
 
 		for i in y:
 			list.append(i.item)
+	
 
-	elif(hour>16 && hour <20):
+	elif(hour>16 and hour <18):
 		page.send(sender_id,"Snacks not available !!!")
 		quick_reply(sender_id)
 		return
 
-	elif(hour>20 && hour<24):
+
+	elif(hour>18 and hour<24):
 		w=veg.query.filter_by(id="Veg_Dinner_Mandatory").all()
 		for i in w:
 			list.append(i.item)
@@ -233,6 +242,8 @@ def veg_diet(sender_id):
 
 	for i in list:
 		page.send(sender_id,i)
+
+	quick_reply(sender_id)
 
 
 

@@ -1,16 +1,15 @@
-from exp1 import db
-from exp1 import veg
-from exp1 import non_veg
-from exp1 import drink
-from exp1 import videos
+from app import db
+from app import veg
+from app import non_veg
+from app import drink
+from app import videos
 
-db.create_all()
 
 #######Videos-List#######
 
-videos_dict={'How to increase height !!':'https://goo.gl/6NRj9y','Reduce Belly Fat in One Week': 'https://goo.gl/jmA9MW',
-'Home Work-Out in 5 minutes !!':'https://goo.gl/UcTL5G','How To get rid of man"s boobs!!':'https://goo.gl/HWBF7P',
-'Fat Cutter Drink ':'https://goo.gl/dXLFDf','How to lose weight fast !!':'https://goo.gl/oJALfP'
+videos_dict={'How to increase height !!':'https://goo.gl/e9Lyhg','Reduce Belly Fat in One Week': 'https://goo.gl/Lj9rTW',
+'Home Work-Out in 5 minutes !!':'https://goo.gl/bnWJ5Z','How To get rid of man"s boobs!!':'https://goo.gl/TWvUxy',
+'Fat Cutter Drink ':'https://goo.gl/Abo3kQ','How to lose weight fast !!':'https://goo.gl/4XB9VR'
 
 
 }
