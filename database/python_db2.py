@@ -3,7 +3,14 @@ from app import veg
 from app import non_veg
 from app import drink
 from app import videos
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
+app = Flask(__name__)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=True
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:kashyap@localhost/fb_bot'
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://pommhsyqyqzeru:2711b3952a28db3a024f241c9fb06fb793fc0967052f60cf735c77f410ac2bb6@ec2-50-19-218-160.compute-1.amazonaws.com:5432/daocq4mn1fibj3"
+db = SQLAlchemy(app)
 
 #######Videos-List#######
 
