@@ -11,8 +11,8 @@ from numpy import random
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:kashyap@localhost/fb_bot'
-#app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://wbklbekokfatzv:d6b8d560d30239b8c98fce3fe6e7115b147d7072cdc617f82706527644c5a6b3@ec2-23-21-158-253.compute-1.amazonaws.com:5432/d8jcgmv3mbh3q8"
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:kashyap@localhost/fb_bot'
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://wbklbekokfatzv:d6b8d560d30239b8c98fce3fe6e7115b147d7072cdc617f82706527644c5a6b3@ec2-23-21-158-253.compute-1.amazonaws.com:5432/d8jcgmv3mbh3q8"
 
 db = SQLAlchemy(app)
 
