@@ -72,7 +72,7 @@ class videos(db.Model):
 
 #############CREATE DATABASE#######
 
-db.create_all()
+#db.create_all()
 #import python_db2
 @app.route('/',methods=['GET'])
 
@@ -158,8 +158,8 @@ def non_veg_diet(sender_id):
 		z = w[randint(0,len(w)-1)].item
 		list.append(z)
 
-		juice=drink.query,filter_by(id='Drink').all()
-		z = w[randint(0,len(juice)-1)].item
+		juice=drink.query.filter_by(id='Drink').all()
+		z = juice[random.randint(0,len(juice)-1)].item
 		list.append(z)
 
 	elif(hour>12 and hour <16):
@@ -206,8 +206,8 @@ def veg_diet(sender_id):
 		z = w[randint(0,len(w)-1)].item
 		list.append(z)
 
-		juice=drink.query,filter_by(id='Drink').all()
-		z = w[randint(0,len(juice)-1)].item
+		juice=drink.query.filter_by(id='Drink').all()
+		z = juice[random.randint(0,len(juice)-1)].item
 		list.append(z)
 
 	elif(hour>12 and hour <16):
@@ -240,7 +240,8 @@ def veg_diet(sender_id):
 			list.append(i.item)
 
 	for i in list:
-		page.send(sender_id,i)
+		s=str(i)
+		page.send(sender_id,s)
 
 	quick_reply(sender_id)
 
